@@ -4,7 +4,7 @@
 [![Blog](https://img.shields.io/badge/blog-Jenly-9933CC.svg)](https://jenly1314.github.io/)
 [![QQGroup](https://img.shields.io/badge/QQGroup-20867961-blue.svg)](http://shang.qq.com/wpa/qunwpa?idkey=8fcc6a2f88552ea44b1.1.682c94fd124f7bb3ec227e2a400dbbfaad3dc2f5ad)
 
-[LeetCode](https://leetcode-cn.com/problemset/all/) 算法刷题记录
+[LeetCode](https://leetcode-cn.com/problemset/all/) 算法题解记录
 
 ## 赞赏
 如果您喜欢LeetCode，或感觉LeetCode帮助到了您，可以点右上角“Star”支持一下，您的支持就是我的动力，谢谢 :smiley:<p>
