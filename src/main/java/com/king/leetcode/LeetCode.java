@@ -617,6 +617,129 @@ public class LeetCode {
     }
 
     /**
+     * 17. 电话号码的字母组合
+     * @param digits
+     * @return
+     */
+    public List<String> letterCombinations(String digits) {
+        List<String> list = new ArrayList<>();
+        int length = digits.length();
+        if(length == 0){
+            return list;
+        }
+
+        char[] ch2 = {'a','b','c'};
+        char[] ch3 = {'d','e','f'};
+        char[] ch4 = {'g','h','i'};
+        char[] ch5 = {'j','k','l'};
+        char[] ch6 = {'m','n','o'};
+        char[] ch7 = {'p','q','r','s'};
+        char[] ch8 = {'t','u','v'};
+        char[] ch9 = {'w','x','y','z'};
+
+        char[] chs = digits.toCharArray();
+
+        int[] sizes = new int[length];
+
+        for(int i = 0; i < length; i++){
+            sizes[i] = numLength(chs[i]);
+        }
+
+        int n = length - 1;
+        int size = sizes[n];
+        int end = n;
+        int endSize = size;
+
+        int[] nums = new int[length];
+
+        while (n >= 0){
+            leap: while (end >= n){
+                StringBuilder sb = new StringBuilder();
+                for (int i = 0; i < length; i++){
+                    switch (chs[i]){
+                        case '2':
+                            sb.append(ch2[nums[i]]);
+                            break;
+                        case '3':
+                            sb.append(ch3[nums[i]]);
+                            break;
+                        case '4':
+                            sb.append(ch4[nums[i]]);
+                            break;
+                        case '5':
+                            sb.append(ch5[nums[i]]);
+                            break;
+                        case '6':
+                            sb.append(ch6[nums[i]]);
+                            break;
+                        case '7':
+                            sb.append(ch7[nums[i]]);
+                            break;
+                        case '8':
+                            sb.append(ch8[nums[i]]);
+                            break;
+                        case '9':
+                            sb.append(ch9[nums[i]]);
+                            break;
+                    }
+
+                }
+
+                list.add(sb.toString());
+
+                if(end >= n){
+                    if(nums[end] < endSize - 1){
+                        nums[end]++;
+                    }else if(end > n){
+                        while (nums[--end] == sizes[end] - 1){
+                            if(end == n){
+                                break leap;
+                            }
+                        }
+                        nums[end]++;
+                    }else{
+                        break;
+                    }
+                    for(int k = end + 1; k < length; k++){
+                        nums[k] = 0;
+                    }
+                    end = length - 1;
+                    endSize = sizes[end];
+                }else{
+                    break;
+                }
+
+            }
+
+            if(n > 0){
+                while (nums[--n] == sizes[n] - 1){
+                    if(n == 0){
+                        return list;
+                    }
+                }
+                nums[n]++;
+                for(int k = n + 1; k < length; k++){
+                    nums[k] = 0;
+                }
+                end = length - 1;
+                endSize = sizes[end];
+            }else{
+                break;
+            }
+
+        }
+
+        return list;
+    }
+
+    private int numLength(char ch){
+        if(ch == '7' || ch == '9'){
+            return 4;
+        }
+        return 3;
+    }
+
+    /**
      * 18. 四数之和
      * @param nums
      * @param target
