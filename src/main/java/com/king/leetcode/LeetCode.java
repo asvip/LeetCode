@@ -374,6 +374,27 @@ public class LeetCode {
         return false;
     }
 
+
+    /**
+     * 11. 盛最多水的容器
+     * @param height
+     * @return
+     */
+    public int maxArea(int[] height) {
+        int n = height.length;
+        int ans = 0;
+        for(int i = 0; i < n - 1; i++){
+            for(int j = i + 1; j < n; j++){
+                int max = (j - i) * Math.min(height[i],height[j]);
+                if(max > ans){
+                    ans = max;
+                }
+            }
+        }
+
+        return ans;
+    }
+
     /**
      * 12. 整数转罗马数字
      * @param num
@@ -820,6 +841,43 @@ public class LeetCode {
         return list;
     }
 
+    /**
+     * 19. 删除链表的倒数第N个节点
+     * @param head
+     * @param n
+     * @return
+     */
+    public ListNode removeNthFromEnd(ListNode head, int n) {
+
+        int size = listNodeSize(head,0);
+        if(size > 1){
+            removeNthFromEnd(head,n,size);
+            return head;
+        }
+
+        return null;
+    }
+
+    private int listNodeSize(ListNode listNode,int size){
+        if(listNode != null){
+            return listNodeSize(listNode.next,++size);
+        }
+        return size;
+    }
+
+    private void removeNthFromEnd(ListNode head, int n , int size) {
+        if(head.next != null){
+            if(size <= n){
+                head.val = head.next.val;
+            }
+            if(head.next.next != null){
+                removeNthFromEnd(head.next,n,--size);
+            }else{
+                head.next = null;
+            }
+
+        }
+    }
 
     /**
      * 20. 有效的括号
@@ -918,6 +976,116 @@ public class LeetCode {
             listNode.next = new ListNode(list.get(pos));
             pos++;
             getListNodeByList(list,listNode.next,pos);
+        }
+
+    }
+
+    /**
+     * 22. 括号生成
+     * @param n
+     * @return
+     */
+    public List<String> generateParenthesis(int n) {
+        char[] ch = {'(',')'};
+        List<String> list = new ArrayList<>();
+
+        return list;
+    }
+
+    /**
+     * 23. 合并K个排序链表
+     * @param lists
+     * @return
+     */
+    public ListNode mergeKLists(ListNode[] lists) {
+        List<Integer> list = new ArrayList<>();
+        int length = lists.length;
+        for(int i = 0; i < length; i++){
+            listNodeToList(list,lists[i]);
+        }
+        Collections.sort(list);
+
+        int size = list.size();
+        if(size > 0){
+            ListNode listNode = new ListNode(list.get(0));
+            listToListNode(listNode,list,1,size);
+            return listNode;
+        }
+
+        return null;
+    }
+
+    private void listNodeToList(List<Integer> list,ListNode listNode){
+        if(listNode != null){
+            list.add(listNode.val);
+            listNodeToList(list,listNode.next);
+        }
+    }
+
+    private void listToListNode(ListNode listNode,List<Integer> list,int pos,int size){
+        if(pos < size){
+            listNode.next = new ListNode(list.get(pos));
+            listToListNode(listNode.next,list,++pos,size);
+        }
+    }
+
+    /**
+     * 24. 两两交换链表中的节点
+     * @param head
+     * @return
+     */
+    public ListNode swapPairs(ListNode head) {
+        if(head != null && head.next != null){
+            ListNode listNode = head.next;
+            head.next = swapPairs(listNode.next);
+            listNode.next = head;
+            return listNode;
+        }
+        return head;
+    }
+
+    private void swap(ListNode head) {
+        if(head != null && head.next != null){
+            int val = head.val;
+            head.val = head.next.val;
+            head.next.val = val;
+            swap(head.next.next);
+        }
+    }
+
+    public ListNode reverseKGroup(ListNode head, int k) {
+        if(head != null){
+            ListNode listNode = reverseKGroup(head,k,1);
+            if(listNode != null){
+                reverseKGroup(listNode,head,k,k);
+            }
+            return listNode;
+        }
+        return head;
+    }
+
+    private ListNode reverseKGroup(ListNode head,int k,int p){
+        if(head != null && p < k){
+            return reverseKGroup(head.next,k, ++p);
+        }
+        return head;
+    }
+
+    private void reverseKGroup(ListNode listNode,ListNode head,int k,int p){
+        if(head != null && k > 0){
+            if(p == 0){
+                if(head.next != null){
+                    listNode.next = head.next;
+                    if(k > 0){
+                        --k;
+                        p = k;
+                        reverseKGroup(listNode.next,head.next,k,p);
+                    }
+                }
+
+            }else  if(head.next != null && p > 0){
+                reverseKGroup(listNode.next,head.next,k,--p);
+            }
         }
 
     }
@@ -1206,6 +1374,7 @@ public class LeetCode {
     }
 
 
+
     /**
      * 面试题 10.01. 合并排序的数组
      * @param A
@@ -1230,6 +1399,52 @@ public class LeetCode {
             }
         }
 
+    }
+
+    /**
+     * 面试题57 - II. 和为s的连续正数序列
+     * @param target
+     * @return
+     */
+    public int[][] findContinuousSequence(int target) {
+        if(target > 2){
+            int sn = target * 2;
+            int n = target;
+            int m = target / 2;
+            List<int[]> list = new ArrayList<>();
+
+            while (n > 1){
+                if (sn % n == 0){
+                    int k = sn / n;
+                    if(k > 1 && k <= n){
+                        int l = 1;
+                        while (l <= m){
+                            if(sn == k * (l + l + k - 1)){//等差数列变形公式
+                                int[] nums = new int[k];
+                                for(int i = 0; i < k; i++){
+                                    nums[i] = l + i;
+                                }
+                                list.add(nums);
+                                break;
+                            }
+                            l++;
+                        }
+
+                    }
+                }
+                n--;
+            }
+
+            int size = list.size();
+            int [][] ns = new int[size][];
+            for(int i = 0; i < size; i++){
+                ns[i] = list.get(size - 1 - i);
+            }
+
+            return ns;
+        }
+
+        return new int[0][];
     }
 
     /**
@@ -1339,6 +1554,29 @@ public class LeetCode {
         }
 
         return nums;
+    }
+
+    /**
+     * 1365. 有多少小于当前数字的数字
+     * @param nums
+     * @return
+     */
+    public int[] smallerNumbersThanCurrent(int[] nums) {
+        int length = nums.length;
+        int[] sizes = new int[length];
+
+        for(int i = 0; i < length; i++){
+            int num = nums[i];
+            int n = 0;
+            for(int j = 0; j < length; j++){
+                if(nums[j] < num){
+                    n++;
+                }
+            }
+            sizes[i] = n;
+        }
+
+        return sizes;
     }
 
     public static void main(String[] args) {
