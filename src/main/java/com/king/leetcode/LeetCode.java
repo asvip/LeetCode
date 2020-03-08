@@ -1374,6 +1374,40 @@ public class LeetCode {
     }
 
 
+    /**
+     * 322. 零钱兑换
+     * @param coins
+     * @param amount
+     * @return
+     */
+    public int coinChange(int[] coins, int amount) {
+        if(amount == 0){
+            return 0;
+        }
+        int length = coins.length;
+
+        Arrays.sort(coins);
+
+        int ans = coinChange(coins,amount,length,length - 1,0,amount + 1);
+
+        return ans > amount ? -1 : ans;
+    }
+
+
+    private int coinChange(int[] coins, int amount,int length,int  pos, int count,int ans) {
+        if(amount == 0){
+            return Math.min(ans,count);
+        }
+
+        if(pos >= 0){
+            for(int i = amount / coins[pos]; i >=0 && i + count < ans; i--){
+                ans = Math.min(ans,coinChange(coins,amount - i * coins[pos],length,pos - 1,count + i, ans));
+            }
+        }
+
+        return ans;
+    }
+
 
     /**
      * 面试题 10.01. 合并排序的数组
