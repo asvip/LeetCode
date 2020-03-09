@@ -1155,6 +1155,104 @@ public class LeetCode {
     }
 
     /**
+     * 29. 两数相除
+     * @param dividend
+     * @param divisor
+     * @return
+     */
+    public int divide(int dividend, int divisor) {
+
+        if(dividend == 0){
+            return 0;
+        }
+        if(dividend == divisor){
+            return 1;
+        }
+        if(divisor == 1){
+            return dividend;
+        }
+        if(divisor == -1){
+            if(dividend == Integer.MIN_VALUE){
+                return Integer.MAX_VALUE;
+            }
+            return -dividend;
+        }
+        if(divisor == Integer.MIN_VALUE){
+            return 0;
+        }
+
+        boolean isMinus = (dividend > 0 && divisor < 0) || ( dividend < 0 && divisor > 0);
+
+        boolean isMinDividend = (dividend == Integer.MIN_VALUE);
+        if(isMinDividend){
+            dividend = Integer.MAX_VALUE;
+        }else{
+            dividend = Math.abs(dividend);
+        }
+
+        divisor = Math.abs(divisor);
+
+        if(dividend == divisor){
+            return isMinus ? -1 : 1;
+        }
+
+        if(dividend > divisor){
+            List<Integer> list1 = new ArrayList<>();
+            List<Integer> list2 = new ArrayList<>();
+
+            if(isMinDividend){
+                dividend = dividend - divisor + 1;
+            }else{
+                dividend = dividend - divisor;
+            }
+
+            int div = 1;
+            int sum = divisor;
+            list1.add(div);
+            list2.add(sum);
+            while (sum < dividend){
+                if(sum < dividend - sum){
+                    sum += sum;
+                    div += div;
+                    list1.add(div);
+                    list2.add(sum);
+                }else if(sum == dividend - sum){
+                    return div + div;
+                }else{
+                    break;
+                }
+            }
+
+            int size = list1.size();
+            div = list1.get(size - 1) + 1;
+            sum = list2.get(size - 1);
+            dividend -= sum;
+
+            while (dividend > 0){
+                for(int i = size - 1; i >= 0; i--){
+                    sum = list2.get(i);
+                    if(dividend >= sum){
+                        dividend -= sum;
+                        div += list1.get(i);
+                        i++;
+                    }
+                    if(dividend < divisor){
+                        return isMinus ? -div : div;
+                    }
+                }
+
+                if(dividend < divisor){
+                    return isMinus ? -div : div;
+                }
+            }
+
+            return isMinus ? -1 : 1;
+        }
+
+        return 0;
+    }
+
+    /**
      * 35. 搜索插入位置
      * @param nums
      * @param target
@@ -1349,6 +1447,32 @@ public class LeetCode {
             return climbStairs(++i, b, a + b, n);
         }
         return b;
+    }
+
+
+    /**
+     * 121. 买卖股票的最佳时机
+     * @param prices
+     * @return
+     */
+    public int maxProfit(int[] prices) {
+        int length = prices.length;
+        int max = 0;
+        if(length > 1){
+            int size = length - 1;
+            int[] diffs = new int[size];
+            for(int i = 0; i < size; i++){
+                diffs[i] = prices[i+1] - prices[i];
+            }
+
+            int last = 0;
+            for(int i = 0; i < size; i++){
+                last = Math.max(0,last + diffs[i]);
+                max = Math.max(max,last);
+            }
+        }
+
+        return max;
     }
 
     /**
