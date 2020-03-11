@@ -1252,6 +1252,39 @@ public class LeetCode {
         return 0;
     }
 
+
+    /**
+     * 31. 下一个排列
+     * @param nums
+     */
+    public void nextPermutation(int[] nums) {
+
+        int length = nums.length;
+        if(length > 0){
+            for(int i = 0; i < length - 1; i++){
+                for(int j = 0; j < length - 1 - i; j++){
+                    if(nums[j] > nums[j + 1]){
+                        int temp = nums[j];
+                        nums[j] = nums[j + 1];
+                        nums[j + 1] = temp;
+                    }
+                }
+            }
+
+            int num = nums[0];
+            int cache = num;
+            for(int i = 2,j = 0; i < length; i++){
+                if(nums[i] >= num && nums[i - 1] == num){
+                    j = i;
+                    num = nums[i];
+                    nums[i - 1] = nums[i];
+
+                }
+            }
+        }
+
+    }
+
     /**
      * 35. 搜索插入位置
      * @param nums
@@ -1533,6 +1566,33 @@ public class LeetCode {
     }
 
 
+
+
+
+    /**
+     * 543. 二叉树的直径
+     * @param root
+     * @return
+     */
+    public int diameterOfBinaryTree(TreeNode root) {
+        depth(root);
+        return max;
+    }
+
+    int max = 0;
+    private int depth(TreeNode treeNode){
+        if(treeNode == null){
+            return 0;
+        }
+        int leftDepth = depth(treeNode.left);
+        int rightDepth = depth(treeNode.right);
+        int depth = leftDepth + rightDepth;
+        if(max < depth){
+            max = depth;
+        }
+        return Math.max(leftDepth,rightDepth) + 1;
+    }
+
     /**
      * 面试题 10.01. 合并排序的数组
      * @param A
@@ -1686,6 +1746,40 @@ public class LeetCode {
         }
 
         return n;
+    }
+
+
+    /**
+     * 1013. 将数组分成和相等的三个部分
+     * @param A
+     * @return
+     */
+    public boolean canThreePartsEqualSum(int[] A) {
+        int length = A.length;
+        int[] sums = new int[length];
+        sums[0] = A[0];
+        for(int i = 1; i < length; i++){
+            sums[i] = sums[i - 1] + A[i];
+        }
+
+        int sum = sums[length - 1];
+        if(sum % 3 == 0){
+            int num = sum / 3;
+            int num2 = num * 2;
+            boolean isBool = false;
+            for(int i = 0; i < length - 1; i++){
+                if(sums[i] == num){
+                    if(isBool){
+                        return true;
+                    }else{
+                        num *= 2;
+                        isBool = true;
+                    }
+                }
+            }
+        }
+
+        return false;
     }
 
     /**
