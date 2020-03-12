@@ -1783,6 +1783,29 @@ public class LeetCode {
     }
 
     /**
+     * 1071. 字符串的最大公因子
+     * @param str1
+     * @param str2
+     * @return
+     */
+    public String gcdOfStrings(String str1, String str2) {
+        if((str1 + str2).equals(str2 + str1)){
+            int length1 = str1.length();
+            int length2 = str2.length();
+            return str1.substring(0,gcd(length1,length2));
+        }
+
+        return "";
+    }
+
+    private int gcd(int a,int b){
+        if(a % b == 0){
+            return  b;
+        }
+        return gcd(b,a % b);
+    }
+
+    /**
      * 1103. 分糖果 II
      * @param candies
      * @param num_people
