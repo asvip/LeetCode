@@ -1509,6 +1509,35 @@ public class LeetCode {
     }
 
     /**
+     * 169. 多数元素
+     * @param nums
+     * @return
+     */
+    public int majorityElement(int[] nums) {
+        int length = nums.length;
+        if(length == 1){
+            return nums[0];
+        }
+        int size = (length + 1) / 2;
+        Map<Integer,Integer> map = new HashMap<>();
+        for(int i = 0; i < length; i++){
+            int num = nums[i];
+            if(!map.containsKey(num)){
+                map.put(num,1);
+            }else{
+                int val = map.get(num);
+                if(++val >= size){
+                    return num;
+                }
+                map.put(num,val);
+            }
+        }
+
+        return 0;
+    }
+
+
+    /**
      * 206. 反转链表
      * @param head
      * @return
@@ -1861,6 +1890,5 @@ public class LeetCode {
         System.out.println(leetCode.myAtoi("0000000000012345678"));
         int[] a = new int[]{4,5,6,0,0,0};
         leetCode.merge(a,3,new int[]{1,2,3},3);
-
     }
 }
