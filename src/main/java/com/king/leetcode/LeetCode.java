@@ -1254,38 +1254,6 @@ public class LeetCode {
 
 
     /**
-     * 31. 下一个排列
-     * @param nums
-     */
-    public void nextPermutation(int[] nums) {
-
-        int length = nums.length;
-        if(length > 0){
-            for(int i = 0; i < length - 1; i++){
-                for(int j = 0; j < length - 1 - i; j++){
-                    if(nums[j] > nums[j + 1]){
-                        int temp = nums[j];
-                        nums[j] = nums[j + 1];
-                        nums[j + 1] = temp;
-                    }
-                }
-            }
-
-            int num = nums[0];
-            int cache = num;
-            for(int i = 2,j = 0; i < length; i++){
-                if(nums[i] >= num && nums[i - 1] == num){
-                    j = i;
-                    num = nums[i];
-                    nums[i - 1] = nums[i];
-
-                }
-            }
-        }
-
-    }
-
-    /**
      * 35. 搜索插入位置
      * @param nums
      * @param target
@@ -1549,7 +1517,7 @@ public class LeetCode {
         return head;
     }
 
-    public ListNode reverse(ListNode list,ListNode head) {
+    private ListNode reverse(ListNode list,ListNode head) {
         if(head != null){
             ListNode listNode = new ListNode(head.val);
             listNode.next = list;
@@ -1557,6 +1525,38 @@ public class LeetCode {
         }
 
         return list;
+    }
+
+    /**
+     * 300. 最长上升子序列
+     * @param nums
+     * @return
+     */
+    public int lengthOfLIS(int[] nums) {
+        int length = nums.length;
+        if(length < 2){
+            return length;
+        }
+        int ans = 0;
+        int max = nums[length - 1];
+        int[] dp = new int[length];
+        dp[length - 1] = 1;
+        for(int i = length - 2; i >= 0; i--){
+            int num = nums[i];
+            if(num < max){
+                for(int j = i + 1; j < length; j++){
+                    if(num < nums[j]){
+                        dp[i] = Math.max(dp[i],dp[j] + 1);
+                    }
+                }
+            }else{
+                dp[i] = 1;
+            }
+            max = Math.max(max,num);
+            ans = Math.max(ans,dp[i]);
+        }
+
+        return ans;
     }
 
 
@@ -1886,9 +1886,7 @@ public class LeetCode {
     public static void main(String[] args) {
         LeetCode leetCode = new LeetCode();
 
-        System.out.println(leetCode.isPalindrome("abcdeffedcba"));
-        System.out.println(leetCode.myAtoi("0000000000012345678"));
-        int[] a = new int[]{4,5,6,0,0,0};
-        leetCode.merge(a,3,new int[]{1,2,3},3);
+        int[] nums = {9,2,5,3,4};
+        System.out.println(leetCode.lengthOfLIS(nums));
     }
 }
