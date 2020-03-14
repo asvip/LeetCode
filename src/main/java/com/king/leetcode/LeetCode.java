@@ -1254,6 +1254,76 @@ public class LeetCode {
 
 
     /**
+     * 31. 下一个排列
+     * @param nums
+     */
+    public void nextPermutation(int[] nums) {
+        int length = nums.length;
+        if(length > 1){
+            int max = nums[length - 1];
+            for(int i = length - 2; i >= 0; i--){
+                if(nums[i] < nums[i + 1]){
+                    int temp = nums[i];
+                    int p =  i + 1;
+                    if(temp >= max){
+                        nums[i] = nums[i + 1];
+                        nums[i + 1] = temp;
+                    }else{
+                        if(p < length - 1){
+                            for(int j = length - 1; j >= p; j--){
+                                if(nums[j] > temp){
+                                    nums[i] = nums[j];
+                                    nums[j] = temp;
+                                    break;
+                                }
+                            }
+                        }else{
+                            nums[i] = nums[i + 1];
+                            nums[i + 1] = temp;
+                            return;
+                        }
+                    }
+
+                    int num = nums[p];
+                    for(int j = p, k = length - 1;j < k; j++,k--){
+                        int numMin = nums[k];
+                        int numMax = nums[j + 1];
+                        if(num < numMin){
+                            nums[j] = num;
+                            num = numMin;
+                        }else{
+                            nums[j] = numMin;
+                        }
+
+                        if(num > numMax){
+                            nums[k] = num;
+                            num = numMax;
+                        }else{
+                            nums[k] = numMax;
+                        }
+
+                    }
+                    return;
+                }else{
+                    max = Math.max(max, nums[i + 1]);
+                }
+
+            }
+
+            for(int i = 0; i < length - 1; i++){
+                for(int j = 0; j < length - 1 - i; j++){
+                    if(nums[j] > nums[j + 1]){
+                        int temp = nums[j];
+                        nums[j] = nums[j + 1];
+                        nums[j + 1] = temp;
+                    }
+                }
+            }
+        }
+
+    }
+
+    /**
      * 35. 搜索插入位置
      * @param nums
      * @param target
