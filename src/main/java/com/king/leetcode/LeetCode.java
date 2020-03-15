@@ -1324,6 +1324,22 @@ public class LeetCode {
     }
 
     /**
+     * 33. 搜索旋转排序数组
+     * @param nums
+     * @param target
+     * @return
+     */
+    public int search(int[] nums, int target) {
+        int length = nums.length;
+        for(int i = 0; i < length; i++){
+            if(target == nums[i]){
+                return i;
+            }
+        }
+        return -1;
+    }
+
+    /**
      * 35. 搜索插入位置
      * @param nums
      * @param target
@@ -1690,6 +1706,40 @@ public class LeetCode {
             max = depth;
         }
         return Math.max(leftDepth,rightDepth) + 1;
+    }
+
+
+    /**
+     * 695. 岛屿的最大面积
+     * @param grid
+     * @return
+     */
+    public int maxAreaOfIsland(int[][] grid) {
+        int length = grid.length;
+        int max = 0;
+        for(int i = 0; i < length; i++){
+            for(int j = 0; j < grid[i].length; j++){
+                if(grid[i][j] != 0){
+                    max = Math.max(max,maxAreaOfIsland(grid,i,j,length));
+                }
+            }
+        }
+        return max;
+    }
+
+    private int maxAreaOfIsland(int[][] grid,int i,int j,int length){
+        if(i < 0 || i >= length){
+            return 0;
+        }
+        if(j < 0 || j >= grid[i].length){
+            return 0;
+        }
+        if(grid[i][j] != 0){
+            grid[i][j] = 0;
+            return 1 + maxAreaOfIsland(grid,i - 1,j,length) + maxAreaOfIsland(grid,i + 1,j,length)
+                    + maxAreaOfIsland(grid,i,j - 1,length) + maxAreaOfIsland(grid,i,j + 1,length);
+        }
+        return 0;
     }
 
     /**
