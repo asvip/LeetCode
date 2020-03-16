@@ -1362,6 +1362,58 @@ public class LeetCode {
     }
 
     /**
+     * 36. 有效的数独
+     * @param board
+     * @return
+     */
+    public boolean isValidSudoku(char[][] board) {
+        char chDot = '.';
+        for(int i = 0; i < 9; i++){
+            Set<Character> setRow = new HashSet<>();
+            Set<Character> setCol = new HashSet<>();
+            for(int j = 0; j < 9; j++){
+                 if(board[i][j] != chDot){
+                     if(setRow.contains(board[i][j])){
+                         return false;
+                     }
+                     setRow.add(board[i][j]);
+                 }
+                 if(board[j][i] != chDot){
+                     if(setCol.contains(board[j][i])){
+                         return false;
+                     }
+                     setCol.add(board[j][i]);
+                 }
+            }
+        }
+        int rowSize = 3;
+        while (rowSize <= 9 ){
+            int colSize = 3;
+            while (colSize <= 9){
+                Set<Character> setGrid = new HashSet<>();
+                int i = rowSize - 3;
+                while (i < rowSize){
+                    int j = colSize - 3;
+                    while (j < colSize){
+                        if(board[i][j] != chDot){
+                            if(setGrid.contains(board[i][j])){
+                                return false;
+                            }
+                            setGrid.add(board[i][j]);
+                        }
+                        j++;
+                    }
+                    i++;
+                }
+                colSize += 3;
+            }
+            rowSize += 3;
+        }
+
+        return true;
+    }
+
+    /**
      * 38. 外观数列
      * 1.     1
      * 2.     11
@@ -1740,78 +1792,6 @@ public class LeetCode {
                     + maxAreaOfIsland(grid,i,j - 1,length) + maxAreaOfIsland(grid,i,j + 1,length);
         }
         return 0;
-    }
-
-    /**
-     * 面试题 10.01. 合并排序的数组
-     * @param A
-     * @param m
-     * @param B
-     * @param n
-     */
-    public void merge(int[] A, int m, int[] B, int n) {
-        int size = m + n;
-
-        for(int i = m; i < size; i++){
-            A[i] = B[i - m];
-        }
-
-        for(int i = 0; i < size - 1; i++){
-            for(int j = 0; j < size - i - 1; j++){
-                if(A[j] > A[j + 1]){
-                    int temp = A[j];
-                    A[j] = A[j + 1];
-                    A[j + 1] = temp;
-                }
-            }
-        }
-
-    }
-
-    /**
-     * 面试题57 - II. 和为s的连续正数序列
-     * @param target
-     * @return
-     */
-    public int[][] findContinuousSequence(int target) {
-        if(target > 2){
-            int sn = target * 2;
-            int n = target;
-            int m = target / 2;
-            List<int[]> list = new ArrayList<>();
-
-            while (n > 1){
-                if (sn % n == 0){
-                    int k = sn / n;
-                    if(k > 1 && k <= n){
-                        int l = 1;
-                        while (l <= m){
-                            if(sn == k * (l + l + k - 1)){//等差数列变形公式
-                                int[] nums = new int[k];
-                                for(int i = 0; i < k; i++){
-                                    nums[i] = l + i;
-                                }
-                                list.add(nums);
-                                break;
-                            }
-                            l++;
-                        }
-
-                    }
-                }
-                n--;
-            }
-
-            int size = list.size();
-            int [][] ns = new int[size][];
-            for(int i = 0; i < size; i++){
-                ns[i] = list.get(size - 1 - i);
-            }
-
-            return ns;
-        }
-
-        return new int[0][];
     }
 
     /**
