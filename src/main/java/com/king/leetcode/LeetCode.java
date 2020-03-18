@@ -1795,6 +1795,19 @@ public class LeetCode {
     }
 
     /**
+     * 836. 矩形重叠
+     * @param rec1
+     * @param rec2
+     * @return
+     */
+    public boolean isRectangleOverlap(int[] rec1, int[] rec2) {
+        if(rec1[0] >= rec2[2] || rec1[2] <= rec2[0] || rec1[1] >= rec2[3] || rec1[3] <= rec2[1]){
+            return false;
+        }
+        return true;
+    }
+
+    /**
      * 994. 腐烂的橘子
      * @param grid
      * @return
@@ -1958,6 +1971,54 @@ public class LeetCode {
         }
 
         return nums;
+    }
+
+    /**
+     * 1160. 拼写单词
+     * @param words
+     * @param chars
+     * @return
+     */
+    public int countCharacters(String[] words, String chars) {
+        Map<Character,Integer> mapChars = new HashMap<>();
+        int length = chars.length();
+        if(length > 0){
+            for(int i = 0; i < length; i++){
+                char ch = chars.charAt(i);
+                if(mapChars.containsKey(ch)){
+                    mapChars.put(ch,mapChars.get(ch) + 1);
+                }else{
+                    mapChars.put(ch,1);
+                }
+            }
+            int ans = 0;
+            for(String str : words){
+                int size = str.length();
+                if(size > 0 && size <= length){
+                    Map<Character,Integer> map = new HashMap<>();
+                    map.putAll(mapChars);
+                    for(int i = 0; i < size; i++){
+                        if(map.containsKey(str.charAt(i))){
+                            int n = map.get(str.charAt(i));
+                            if(n > 1){
+                                n--;
+                                map.put(str.charAt(i),n);
+                            }else{
+                                map.remove(str.charAt(i));
+                            }
+                        }else{
+                            size = 0;
+                            break;
+                        }
+                    }
+                    ans += size;
+                }
+
+            }
+            return ans;
+        }
+
+        return  0;
     }
 
     /**
