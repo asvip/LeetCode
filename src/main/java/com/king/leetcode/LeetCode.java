@@ -1733,7 +1733,35 @@ public class LeetCode {
     }
 
 
+    /**
+     * 409. 最长回文串 - 与第5类似
+     * @param s
+     * @return
+     */
+    public int longestPalindrome1(String s) {
+        int length = s.length();
+        if(length < 2){
+            return length;
+        }
 
+        int ans = 0;
+        Map<Character,Integer> map = new HashMap<>();
+        for(int i = 0; i < length; i++){
+            char ch = s.charAt(i);
+            if(map.containsKey(ch)){
+                ans += 2;
+                map.remove(ch);
+            }else{
+                map.put(ch,1);
+            }
+        }
+
+        if(!map.isEmpty()){
+            ans++;
+        }
+
+        return ans;
+    }
 
 
     /**
@@ -2049,5 +2077,6 @@ public class LeetCode {
 
         int[] nums = {9,2,5,3,4};
         System.out.println(leetCode.lengthOfLIS(nums));
+       
     }
 }
