@@ -1455,6 +1455,21 @@ public class LeetCode {
     }
 
     /**
+     * 面试题40. 最小的k个数
+     * @param arr
+     * @param k
+     * @return
+     */
+    public int[] getLeastNumbers(int[] arr, int k) {
+         Arrays.sort(arr);
+         int[] mins = new int[k];
+         for(int i = 0; i < k; i++){
+             mins[i] = arr[i];
+         }
+         return mins;
+    }
+
+    /**
      * 53. 最大子序和
      * @param nums
      * @return
