@@ -1,6 +1,7 @@
 package com.king.leetcode;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 /**
@@ -62,6 +63,21 @@ public class Interview {
             }
         }
 
+    }
+
+    /**
+     * 面试题40. 最小的k个数
+     * @param arr
+     * @param k
+     * @return
+     */
+    public int[] getLeastNumbers(int[] arr, int k) {
+        Arrays.sort(arr);
+        int[] mins = new int[k];
+        for(int i = 0; i < k; i++){
+            mins[i] = arr[i];
+        }
+        return mins;
     }
 
     /**

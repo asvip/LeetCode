@@ -1454,20 +1454,6 @@ public class LeetCode {
         return sb.toString();
     }
 
-    /**
-     * 面试题40. 最小的k个数
-     * @param arr
-     * @param k
-     * @return
-     */
-    public int[] getLeastNumbers(int[] arr, int k) {
-         Arrays.sort(arr);
-         int[] mins = new int[k];
-         for(int i = 0; i < k; i++){
-             mins[i] = arr[i];
-         }
-         return mins;
-    }
 
     /**
      * 53. 最大子序和
@@ -1745,6 +1731,27 @@ public class LeetCode {
         }
 
         return ans;
+    }
+
+
+    /**
+     * 365. 水壶问题
+     * @param x
+     * @param y
+     * @param z
+     * @return
+     */
+    public boolean canMeasureWater(int x, int y, int z) {
+        if(z == 0){
+            return true;
+        }
+        if(x == 0 || y == 0){
+            return x + y == z;
+        }
+        if(x + y < z){
+            return false;
+        }
+        return z % gcd(x,y) == 0;
     }
 
 
