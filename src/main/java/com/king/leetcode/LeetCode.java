@@ -1858,6 +1858,80 @@ public class LeetCode {
     }
 
     /**
+     * 945. 使数组唯一的最小增量
+     * @param A
+     * @return
+     */
+    public int minIncrementForUnique(int[] A) {
+        int length =  A.length;
+        if(length < 2){
+            return 0;
+        }
+        Arrays.sort(A);
+
+        Set<Integer> set = new HashSet<>();
+        set.add(A[0]);
+        List<Integer> list = new ArrayList<>();
+        for(int i = 1; i < length; i++){
+            if(A[i] == A[i - 1]){
+                list.add(i);
+            }else{
+                set.add(A[i]);
+            }
+        }
+
+        int ans = 0;
+        int size = list.size();
+        if(size > 0){
+            int j = 0;
+            int i = list.get(j);
+            int p = i + 1;
+            int num = A[i] + 1;
+            int last = A[length - 1];
+            while (j < size){
+                if(num < last){
+                    leap : for(int k = p; k < length; k++){
+                        while (num < A[k]){
+                            if(!set.contains(num)){
+                                ans += num - A[i];
+                                A[i] = num;
+                                set.add(num);
+                                p = k;
+                                break leap;
+                            }
+                            num++;
+                        }
+                        p = k;
+                        if(k == length - 1){
+                            while (set.contains(num)){
+                                num++;
+                            }
+                            ans += num - A[i];
+                            A[i] = num;
+                            set.add(num);
+                        }
+                    }
+
+                }else{
+                    while (set.contains(num)){
+                        num++;
+                    }
+                    ans += num - A[i];
+                    A[i] = num;
+                    set.add(num);
+                }
+
+                if(++j < size){
+                    i = list.get(j);
+                    num = Math.max(num + 1,A[i] + 1);
+                }
+            }
+        }
+
+        return ans;
+    }
+
+    /**
      * 994. 腐烂的橘子
      * @param grid
      * @return
@@ -2097,8 +2171,8 @@ public class LeetCode {
     public static void main(String[] args) {
         LeetCode leetCode = new LeetCode();
 
-        int[] nums = {9,2,5,3,4};
-        System.out.println(leetCode.lengthOfLIS(nums));
-       
+        int[] nums = {1,3,0,3,0};
+        System.out.println(leetCode.minIncrementForUnique(nums));
+
     }
 }
