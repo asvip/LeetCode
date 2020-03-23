@@ -1858,6 +1858,25 @@ public class LeetCode {
     }
 
     /**
+     * 876. 链表的中间结点
+     * @param head
+     * @return
+     */
+    public ListNode middleNode(ListNode head) {
+        List<ListNode> list = new ArrayList<>();
+        middleNode(list,head);
+        int index =  list.size() / 2;
+        return list.get(index);
+    }
+
+    private void middleNode(List<ListNode> list,ListNode head){
+        if(head != null){
+            list.add(head);
+            middleNode(list,head.next);
+        }
+    }
+
+    /**
      * 945. 使数组唯一的最小增量
      * @param A
      * @return
