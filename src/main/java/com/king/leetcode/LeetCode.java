@@ -2064,6 +2064,65 @@ public class LeetCode {
 
 
     /**
+     * 999. 车的可用捕获量
+     * @param board
+     * @return
+     */
+    public int numRookCaptures(char[][] board) {
+        char rook = 'R';
+        char bishop = 'B';
+        char pawn = 'p';
+        int ans = 0;
+        int m = 0;
+        int n = 0;
+        leap: for(int i = 0; i < 8; i++) {
+            for (int j = 0; j < 8; j++) {
+                if (board[i][j] == rook) {
+                    m = i;
+                    n = j;
+                    break leap;
+                }
+            }
+        }
+
+        for(int k = m - 1; k >= 0; k--){
+            if(board[k][n] == bishop){
+                break;
+            }else if(board[k][n] == pawn){
+                ans += 1;
+                break;
+            }
+        }
+        for(int k = m + 1; k < 8; k++){
+            if(board[k][n] == bishop){
+                break;
+            }else if(board[k][n] == pawn){
+                ans += 1;
+                break;
+            }
+        }
+        for(int k = n - 1; k >= 0; k--){
+            if(board[m][k] == bishop){
+                break;
+            }else if(board[m][k] == pawn){
+                ans += 1;
+                break;
+            }
+        }
+        for(int k = n + 1; k < 8; k++){
+            if(board[m][k] == bishop){
+                break;
+            }else if(board[m][k] == pawn){
+                ans += 1;
+                break;
+            }
+        }
+        return ans;
+
+
+    }
+
+    /**
      * 1013. 将数组分成和相等的三个部分
      * @param A
      * @return
