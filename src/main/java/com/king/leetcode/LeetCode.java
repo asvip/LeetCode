@@ -1906,6 +1906,50 @@ public class LeetCode {
     }
 
     /**
+     * 914. 卡牌分组
+     * @param deck
+     * @return
+     */
+    public boolean hasGroupsSizeX(int[] deck) {
+        int length = deck.length;
+        if(length > 1){
+            if(length == 2){
+                return deck[0] == deck[1];
+            }
+            Arrays.sort(deck);
+            int n = 0;
+            int count = 1;
+            int num = deck[0];
+            for(int i = 1;  i < length; i++){
+                if(deck[i] == num){
+                    count++;
+                }else{
+                    if(count < 2){
+                        return false;
+                    }
+                    if(n == 0){
+                        n = count;
+                    }else{
+                        int gcd = gcd(n,count);
+                        if(gcd < 2){
+                            return false;
+                        }
+                        n = gcd;
+                    }
+                    count = 1;
+                    num = deck[i];
+                }
+            }
+            if(count < 2){
+                return false;
+            }
+            n = gcd(n,count);
+            return n >= 2;
+        }
+        return false;
+    }
+
+    /**
      * 945. 使数组唯一的最小增量
      * @param A
      * @return
