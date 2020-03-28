@@ -1,5 +1,7 @@
 package com.king.leetcode;
 
+import sun.security.util.Length;
+
 import java.util.*;
 
 /**
@@ -1842,6 +1844,41 @@ public class LeetCode {
                     + maxAreaOfIsland(grid,i,j - 1,length) + maxAreaOfIsland(grid,i,j + 1,length);
         }
         return 0;
+    }
+
+    /**
+     * 820. 单词的压缩编码
+     * @param words
+     * @return
+     */
+    public int minimumLengthEncoding(String[] words) {
+        int length = words.length;
+        for(int i = 0; i < length - 1; i++){
+            for(int j = 0; j < length - 1 - i; j++){
+                if(words[j].length() < words[j + 1].length()){
+                    String temp = words[j];
+                    words[j] = words[j + 1];
+                    words[j + 1] = temp;
+                }
+            }
+        }
+        int[] dp = new int[length];
+        for(int i = 0; i < length - 1; i++){
+            String word = words[i];
+            for(int j = i + 1; j < length; j++){
+                if(word.endsWith(words[j])){
+                    dp[j] = -1;
+                }
+            }
+        }
+        int ans = 0;
+        for(int i = 0; i < length; i++){
+            if(dp[i] == 0){
+                ans += words[i].length() + 1;
+            }
+        }
+
+        return ans;
     }
 
     /**
