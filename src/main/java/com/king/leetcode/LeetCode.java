@@ -1,5 +1,7 @@
 package com.king.leetcode;
 
+import com.sun.jmx.remote.internal.ArrayQueue;
+import com.sun.org.apache.regexp.internal.REUtil;
 import sun.security.util.Length;
 
 import java.util.*;
@@ -1978,6 +1980,28 @@ public class LeetCode {
     }
 
     /**
+     * 912. 排序数组
+     * @param nums
+     * @return
+     */
+    public int[] sortArray(int[] nums) {
+        Arrays.sort(nums);
+        return nums;
+    }
+
+    public int[] sortArray1(int[] nums) {
+        int length = nums.length;
+        Queue<Integer> queue = new PriorityQueue<>();
+        for(int i = 0; i < length; i++){
+            queue.add(nums[i]);
+        }
+        for(int i = 0; i < length; i++){
+            nums[i] = queue.poll();
+        }
+        return nums;
+    }
+
+    /**
      * 914. 卡牌分组
      * @param deck
      * @return
@@ -2366,6 +2390,62 @@ public class LeetCode {
         }
 
         return  0;
+    }
+
+    /**
+     * 1162. 地图分析
+     * @param grid
+     * @return
+     */
+    public int maxDistance(int[][] grid) {
+        Queue<int[]> queue = new ArrayDeque<>();
+        int length = grid.length;
+
+        for(int i = 0; i < length; i++){
+            for(int j = 0; j < length; j++){
+                if(grid[i][j] == 1){
+                    queue.add(new int[]{i,j});
+                }
+            }
+        }
+
+        int[] dx = {0,0,-1,1};
+        int[] dy = {-1,1,0,0};
+
+        boolean isOcean = false;
+        int x = 0;
+        int y = 0;
+        while (!queue.isEmpty()){
+            int[] pos = queue.poll();
+            x = pos[0];
+            y = pos[1];
+            for(int i = 0; i < 4; i++){
+                int nx = x + dx[i];
+                int ny = y + dy[i];
+                if(isIndex(nx,ny,length) && grid[nx][ny] == 0){
+                    isOcean = true;
+                    grid[nx][ny] = grid[x][y] + 1;
+                    queue.add(new int[]{nx,ny});
+                }
+            }
+        }
+
+        if(isOcean){
+            return grid[x][y] - 1;
+        }
+
+        return -1;
+    }
+
+    private boolean isIndex(int i,int j,int length){
+        if(i < 0 || i >= length){
+            return false;
+        }
+        if(j < 0 || j >= length){
+            return false;
+        }
+
+        return true;
     }
 
     /**

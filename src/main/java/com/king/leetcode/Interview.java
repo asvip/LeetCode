@@ -1,8 +1,8 @@
 package com.king.leetcode;
 
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
+import com.sun.jmx.remote.internal.ArrayQueue;
+
+import java.util.*;
 
 /**
  * @author <a href="mailto:jenly1314@gmail.com">Jenly</a>
@@ -149,5 +149,20 @@ public class Interview {
         }
 
         return new int[0][];
+    }
+
+
+    /**
+     * 面试题62. 圆圈中最后剩下的数字
+     * @param n
+     * @param m
+     * @return
+     */
+    public int lastRemaining(int n, int m) {
+        int s = 0;
+        for(int i = 2; i <= n; i++){
+            s = (m + s) % i;
+        }
+        return s;
     }
 }
