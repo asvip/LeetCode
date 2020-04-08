@@ -1,9 +1,5 @@
 package com.king.leetcode;
 
-import com.sun.jmx.remote.internal.ArrayQueue;
-import com.sun.org.apache.regexp.internal.REUtil;
-import sun.security.util.Length;
-
 import java.util.*;
 
 /**
@@ -1439,7 +1435,7 @@ public class LeetCode {
         return str;
     }
 
-    public String nextAndSay(String str) {
+    private String nextAndSay(String str) {
         int n = 0;
         StringBuilder sb = new StringBuilder();
         char ch = str.charAt(0);
@@ -1593,6 +1589,44 @@ public class LeetCode {
         return b;
     }
 
+    /**
+     * 83. 删除排序链表中的重复元素
+     * @param head
+     * @return
+     */
+    public ListNode deleteDuplicates(ListNode head) {
+        if(head != null){
+            deleteDuplicates(head,head.val);
+        }
+        return head;
+    }
+
+    private void deleteDuplicates(ListNode listNode,int n){
+        if(listNode.next != null){
+            if(listNode.next.val == n){
+                listNode.next = listNode.next.next;
+                if(listNode.next != null){
+                    deleteDuplicates(listNode,n);
+                }
+            }else{
+                deleteDuplicates(listNode.next,listNode.next.val);
+            }
+        }
+    }
+
+    /**
+     * 88. 合并两个有序数组
+     * @param nums1
+     * @param m
+     * @param nums2
+     * @param n
+     */
+    public void merge(int[] nums1, int m, int[] nums2, int n) {
+        for(int i = m,j = 0; i < m + n; i++,j++){
+            nums1[i] = nums2[j];
+        }
+        Arrays.sort(nums1);
+    }
 
     /**
      * 121. 买卖股票的最佳时机
@@ -2474,8 +2508,6 @@ public class LeetCode {
     public static void main(String[] args) {
         LeetCode leetCode = new LeetCode();
 
-        int[] nums = {1,3,0,3,0};
-        System.out.println(leetCode.minIncrementForUnique(nums));
 
     }
 }
