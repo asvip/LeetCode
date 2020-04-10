@@ -1590,6 +1590,33 @@ public class LeetCode {
     }
 
     /**
+     * 151. 翻转字符串里的单词
+     * @param s
+     * @return
+     */
+    public String reverseWords(String s) {
+        s = s.trim();
+        if(s.length() > 0){
+            String[] strs = s.split(" ");
+            StringBuilder sb = new StringBuilder();
+            int length = strs.length;
+            for(int i =  length - 1; i >= 0; i--){
+                String si = strs[i].trim();
+                if(si.length() > 0){
+                    sb.append(si);
+                    if(i > 0){
+                        sb.append(" ");
+                    }
+                }
+
+            }
+            return sb.toString();
+        }
+
+        return s;
+    }
+
+    /**
      * 83. 删除排序链表中的重复元素
      * @param head
      * @return
