@@ -1852,6 +1852,69 @@ public class LeetCode {
 
 
     /**
+     * 445. 两数相加 II
+     * @param l1
+     * @param l2
+     * @return
+     */
+    public ListNode addTwoNumbers1(ListNode l1, ListNode l2) {
+
+        List<Integer> list1 = new ArrayList<>();
+        getListFromListNode(l1,list1);
+
+        List<Integer> list2 = new ArrayList<>();
+        getListFromListNode(l2,list2);
+
+        int p1 = list1.size() - 1;
+        int p2 = list2.size() - 1;
+
+        List<Integer> list = new ArrayList<>();
+        int n = 0;
+        while (p1 >= 0 || p2 >= 0){
+            int num = 0;
+            if(p1 >= 0 && p2 >= 0){
+                num = list1.get(p1) + list2.get(p2) + n;
+                n = num / 10;
+                list.add(num % 10);
+            }else if(p1 >= 0){
+                num = list1.get(p1) + n;
+                n = num / 10;
+                list.add(num % 10);
+            }else if(p2 >= 0){
+                num = list2.get(p2) + n;
+                n = num / 10;
+                list.add(num % 10);
+            }
+            p1--;
+            p2--;
+        }
+        if(n > 0){
+            list.add(n);
+        }
+
+        int size =  list.size();
+        ListNode listNode = new ListNode(list.get(--size));
+
+        nextListNode(list,--size,listNode);
+
+        return listNode;
+    }
+
+    private void nextListNode(List<Integer> list,int i,ListNode listNode){
+        if(i >= 0){
+            listNode.next = new ListNode(list.get(i));
+            nextListNode(list,--i,listNode.next);
+        }
+    }
+
+    private void getListFromListNode(ListNode listNode,List<Integer> list){
+        if(listNode != null){
+            list.add(listNode.val);
+            getListFromListNode(listNode.next,list);
+        }
+    }
+
+    /**
      * 543. 二叉树的直径
      * @param root
      * @return
